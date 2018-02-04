@@ -8,6 +8,7 @@ using Services.Relationships;
 using System.Collections.Generic;
 using Neo4jClientVector.Helpers;
 using Neo4jClient.Cypher;
+using System;
 
 namespace Services.Services.Persons
 {
@@ -27,7 +28,7 @@ namespace Services.Services.Persons
     }
     public interface IPersonService : IEntityService<IndexPerson>
     {
-        Task<PersonGraph> FindGraphAsync(string registerId);
+        Task<PersonGraph> FindGraphAsync(Guid guid);
         Task<SearchPersonCluster> SearchAsync(SearchPersonCluster query);
     }
     public class PersonService : EntityService<IndexPerson>, IPersonService
@@ -54,14 +55,15 @@ namespace Services.Services.Persons
             orderBy: OrderBy.From(query).When("ByName", "p.name1"));
         }
 
-        public async Task<PersonGraph> FindGraphAsync(string registerId)
+        public async Task<PersonGraph> FindGraphAsync(Guid guid)
         {
-            var query = graph.From<IndexPerson>("p")
-                             .Where((IndexPerson p) => p.registerid == registerId);
-            return await query.FirstOrDefaultAsync(p => new PersonGraph
+            var query = graph.From<IndexPerson>("person")
+                             .Where((IndexPerson person) => person.Guid == guid)
+                             .Match<PersonIn>();
+            return await query.FirstOrDefaultAsync(person => new PersonGraph
             {
-                Entity = p.As<IndexPerson>(),
-                Regests = Return.As<IEnumerable<PersonIn>>(Rows<PersonIn>())
+                Entity = person.As<IndexPerson>(),
+                Regests = Return.As<IEnumerable<PersonIn>>(Collect<PersonIn>())
             });
         }
 

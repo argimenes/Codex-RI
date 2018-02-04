@@ -1,0 +1,153 @@
+﻿@model Codex_RI.Areas.Admin.Models.Persons.SearchPersonClusterModel
+@{
+    ViewBag.Title = "Persons / Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumbs {
+    <p>
+        Admin
+    </p>
+}
+
+<div class="wrapper wrapper-content">
+
+    @using (Html.BeginForm("", ""))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Search</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>
+                                    Name 1
+                                </label>
+                                @Html.TextBoxFor(x => x.Name1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Name1)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Name 3
+                                </label>
+                                @Html.TextBoxFor(x => x.Name3, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Name3)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>
+                                    Page
+                                </label>
+                                @Html.DropDownListFor(x => x.Page, Model.Pages, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Page)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Rows per page
+                                </label>
+                                @Html.DropDownListFor(x => x.PageRows, Model.Records, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.PageRows)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Sort by
+                                </label>
+                                @Html.DropDownListFor(x => x.Order, SelectList("SortOptions"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Order)
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    Sort direction
+                                </label>
+                                <div class="radio radio-success">
+                                    @foreach (var direction in Model.Directions)
+                                    {
+                                        <div class="radio i-checks">
+                                            @Html.RadioButtonFor(x => x.Direction, direction.Value) <label>@direction.Text</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <a href="/Admin/Person/Search" class="btn btn-white btn-outline">Clear</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="pull-right">
+                    <a class="btn btn-lg btn-primary" href="/Admin/Person/Add">Add</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Results</h5>
+        </div>
+        <div class="ibox-content">
+            @if (Model.Results != null && Model.Results.Any())
+            {
+                <table class="table table-condensed table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Register Id
+                            </th>
+                            <th>
+                                Name 1
+                            </th>
+                            <th>
+                                Name 3
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Results)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="/Admin/Person/Index/@item.Entity.Guid" class="btn btn-white btn-outline btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                                <td>
+                                    @item.Entity.Guid
+                                </td>
+                                <td>
+                                    @item.Entity.registerid
+                                </td>
+                                <td>
+                                    @Html.Raw(item.Entity.name1)
+                                </td>
+                                <td>
+                                    @Html.Raw(item.Entity.name3)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h4>There were no persons found for your query</h4>
+            }
+        </div>
+    </div>
+</div>
