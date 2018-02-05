@@ -63,10 +63,13 @@
     <Compile Include="Relationships\DateOfIssue.cs" />
     <Compile Include="Relationships\ParentOf.cs" />
     <Compile Include="Relationships\Action.cs" />
+    <Compile Include="Relationships\MentionsPerson.cs" />
+    <Compile Include="Relationships\MentionsPlace.cs" />
     <Compile Include="Relationships\PlaceOfIssue.cs" />
     <Compile Include="Relationships\References.cs" />
     <Compile Include="Relationships\PersonIn.cs" />
     <Compile Include="Relationships\PlaceIn.cs" />
+    <Compile Include="Services\Regestae\RegestService.cs" />
     <Compile Include="Services\Persons\PersonService.cs" />
   </ItemGroup>
   <ItemGroup>

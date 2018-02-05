@@ -7,5 +7,6 @@ namespace Services.Nodes
     {
         public float? lat { get; set; }
         public float? @long { get; set; }
+        public string name { get; set; }
     }
 }

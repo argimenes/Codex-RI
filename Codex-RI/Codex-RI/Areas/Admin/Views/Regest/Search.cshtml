@@ -1,0 +1,203 @@
+﻿@model Codex_RI.Areas.Admin.Models.Regestae.SearchRegestClusterModel
+@{
+    ViewBag.Title = "Regestae / Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumbs {
+    <p>
+        Admin
+    </p>
+}
+
+<div class="wrapper wrapper-content">
+
+    @using (Html.BeginForm("", ""))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Search</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>
+                                    Place of Issue
+                                </label>
+                                @Html.DropDownListFor(x => x.PlaceOfIssue, SelectList("PlacesOfIssue"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.PlaceOfIssue)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Mentions Place
+                                </label>
+                                @Html.DropDownListFor(x => x.MentionedPlace, SelectList("Places"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.MentionedPlace)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Year
+                                </label>
+                                @Html.TextBoxFor(x => x.Year, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Year)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Month
+                                </label>
+                                @Html.DropDownListFor(x => x.Month, SelectList("Months"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Month)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Day
+                                </label>
+                                @Html.TextBoxFor(x => x.Day, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Day)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>
+                                    Page
+                                </label>
+                                @Html.DropDownListFor(x => x.Page, Model.Pages, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Page)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Rows per page
+                                </label>
+                                @Html.DropDownListFor(x => x.PageRows, Model.Records, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.PageRows)
+                            </div>
+                            <div class="col-md-2">
+                                <label>
+                                    Sort by
+                                </label>
+                                @Html.DropDownListFor(x => x.Order, SelectList("SortOptions"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Order)
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    Sort direction
+                                </label>
+                                <div class="radio radio-success">
+                                    @foreach (var direction in Model.Directions)
+                                    {
+                                        <div class="radio i-checks">
+                                            @Html.RadioButtonFor(x => x.Direction, direction.Value) <label>@direction.Text</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <a href="/Admin/Regest/Search" class="btn btn-white btn-outline">Clear</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="pull-right">
+                    <a class="btn btn-lg btn-primary" href="/Admin/Regest/Add">Add</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Results</h5>
+        </div>
+        <div class="ibox-content">
+            @if (Model.Results != null && Model.Results.Any())
+            {
+                <table class="table table-condensed table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Regid
+                            </th>
+                            <th>
+                                Regnum
+                            </th>
+                            <th>
+                                Place of Issue
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Persons
+                            </th>
+                            <th>
+                                Places Mentioned
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Results)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="/Admin/Regest/Index/@item.Entity.Guid" class="btn btn-white btn-outline btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                                <td>
+                                    @item.Entity.Guid
+                                </td>
+                                <td>
+                                    @item.Entity.regid
+                                </td>
+                                <td>
+                                    @item.Entity.regnum
+                                </td>
+                                <td>
+                                    @item.Entity.placeOfIssue
+                                </td>
+                                <td>
+                                    @item.Entity.date
+                                </td>
+                                <td>
+                                    @foreach (var person in item.Persons)
+                                    {
+                                        <p>
+                                            <a href="/Admin/Person/Index/@person.Guid">@Html.Raw(person.name1)</a>
+                                        </p>
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var place in item.PlacesMentioned)
+                                    {
+                                        <p>
+                                            <a href="/Admin/IndexPlace/Index/@place.Guid">@Html.Raw(place.name1)</a>
+                                        </p>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h4>There were no regestae found for your query</h4>
+            }
+        </div>
+    </div>
+</div>

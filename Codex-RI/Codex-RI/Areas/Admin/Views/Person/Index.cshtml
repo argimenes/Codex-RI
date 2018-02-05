@@ -80,7 +80,16 @@
                                                     Reg Num
                                                 </th>
                                                 <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Place of Issue
+                                                </th>
+                                                <th>
                                                     Text
+                                                </th>
+                                                <th>
+
                                                 </th>
                                             </tr>
                                         </thead>
@@ -96,6 +105,12 @@
                                                     </td>
                                                     <td>
                                                         @property.Target.regnum
+                                                    </td>
+                                                    <td>
+                                                        @property.Target.date
+                                                    </td>
+                                                    <td>
+                                                        @Html.Raw(property.Target.placeOfIssue)
                                                     </td>
                                                     <td>
                                                         @Html.Raw(property.Target.text)
