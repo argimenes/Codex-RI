@@ -51,7 +51,8 @@ namespace Codex_RI.Areas.Admin.Controllers
         {
             var list = new List<SelectListItem>
             {
-                new SelectListItem { Text = "By Name", Value = SearchOrder.ByName.ToString() },
+                new SelectListItem { Text = "By Name", Value = "ByName" },
+                new SelectListItem { Text = "By Regest Count", Value = "ByRegestCount" },
             };
             return list;
         }
@@ -65,7 +66,7 @@ namespace Codex_RI.Areas.Admin.Controllers
 
                 Page = model.Page,
                 PageRows = model.PageRows,
-                Order = model.Order.ToEnum(SearchOrder.ByName).ToString(),
+                Order = model.Order ?? "ByName",
                 Direction = model.Direction
             };
         }

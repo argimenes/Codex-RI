@@ -19,6 +19,7 @@ namespace Services.Services.Persons
     public class PersonCluster : Cluster<IndexPerson>
     {
         public IEnumerable<Regestae> Regests { get; set; }
+        public int RegestCount { get; set; }
     }
     public class SearchPersonCluster : Search<PersonCluster>
     {
@@ -44,15 +45,18 @@ namespace Services.Services.Persons
             var records = graph.Match<PersonIn>(from: "p").Where()
                                .If(query.Name1.HasValue(), x => x.AndWhereLike("p.name1", query.Name1))
                                .If(query.Name3.HasValue(), x => x.AndWhereLike("p.name3", query.Name3))
+                               .With("p, count(distinct(r)) as RegestCount")
                                ;
 
             return await PageAsync<PersonCluster, SearchPersonCluster>(query, records, selector: p =>
             new PersonCluster
             {
                 Entity = p.As<IndexPerson>(),
-                Regests = Return.As<IEnumerable<Regestae>>("collect(distinct(r))")
+                RegestCount = Return.As<int>("RegestCount")
             },
-            orderBy: OrderBy.From(query).When("ByName", "p.name1"));
+            orderBy: OrderBy.From(query)
+                            .When("ByName", "p.name1")
+                            .When("ByRegestCount", "RegestCount"));
         }
 
         public async Task<PersonGraph> FindGraphAsync(Guid guid)

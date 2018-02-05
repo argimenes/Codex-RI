@@ -3,7 +3,6 @@ using Neo4jClientVector.Nodes;
 
 namespace Services.Nodes
 {
-    [Ident(Property = "regid")]
     public class Regestae : Entity
     {
         public string archivalHistory { get; set; }

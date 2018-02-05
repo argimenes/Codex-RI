@@ -116,6 +116,9 @@
                             <th>
                                 Name 3
                             </th>
+                            <th>
+                                # of Regests
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -138,6 +141,9 @@
                                 </td>
                                 <td>
                                     @Html.Raw(item.Entity.name3)
+                                </td>
+                                <td>
+                                    @item.RegestCount
                                 </td>
                             </tr>
                         }
