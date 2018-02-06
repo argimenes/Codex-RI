@@ -49,7 +49,7 @@ namespace Codex_RI.Areas.Admin.Controllers
 
         private async Task<List<SelectListItem>> PlacesAsync()
         {
-            var list = (await service.PlacesAsync()).OrderBy(x => x).Select(x => new SelectListItem { Text = x, Value = x }).ToList();
+            var list = (await service.PlacesAsync()).OrderBy(x => x.name1).Select(x => new SelectListItem { Text = x.name1, Value = x.Guid.ToString() }).ToList();
             list.Insert(0, new SelectListItem { });
             return list;
         }

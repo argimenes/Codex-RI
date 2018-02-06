@@ -36,13 +36,13 @@ namespace Services.Services.Persons
 
         public string PlaceOfIssue { get; set; }
 
-        public string MentionedPlace { get; set; }
+        public Guid? MentionedPlace { get; set; }
     }
     public interface IRegestService : IEntityService<Regestae>
     {
         Task<List<string>> PlacesOfIssueAsync();
         Task<RegestGraph> FindGraphAsync(Guid guid);
-        Task<List<string>> PlacesAsync();
+        Task<List<IndexPlace>> PlacesAsync();
         Task<SearchRegestCluster> SearchAsync(SearchRegestCluster query);
     }
     public class RegestService : EntityService<Regestae>, IRegestService
@@ -60,10 +60,12 @@ namespace Services.Services.Persons
             return result;
         }
 
-        public async Task<List<string>> PlacesAsync()
+        public async Task<List<IndexPlace>> PlacesAsync()
         {
-            var query = graph.From<IndexPlace>("p").With("p");
-            var result = await query.ToListAsync(p => Return.As<string>("distinct(p.name1)"));
+            var query = graph.From<IndexPlace>("p")
+                             .Match<PlaceIn>(from: "p")
+                             .With("p");
+            var result = await query.ToListAsync(p => Return.As<IndexPlace>("distinct(p)"));
             return result;
         }
 
@@ -75,7 +77,7 @@ namespace Services.Services.Persons
                                .If(query.Day.HasValue(), x => x.AndWhere($"r.date ENDS WITH '{query.Day}'"))
                                .If(query.PlaceOfIssue.HasValue(), x => x.AndWhereLike("r.placeOfIssue", query.PlaceOfIssue))
                                .If(query.Ident.HasValue(), x => x.AndWhereLike("r.ident", query.Ident))
-                               .If(query.MentionedPlace.HasValue(), x => x.Match<MentionsPlace>(to: "place").Where("place.name1", query.MentionedPlace).With("r, person, place"))
+                               .If(query.MentionedPlace.HasValue, x => x.Match<MentionsPlace>(to: "place").Where("place.Guid", query.MentionedPlace.Value).With("r, person, place"))
                                .OptMatch<MentionsPlace>(to: "otherPlace")
                                .OptMatch<PlaceOfIssue>(to: "placeOfIssue")
                                ;

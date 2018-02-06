@@ -222,8 +222,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PlaceController.cs" />
     <Compile Include="Areas\Admin\Controllers\RegestController.cs" />
     <Compile Include="Areas\Admin\Controllers\PersonController.cs" />
+    <Compile Include="Areas\Admin\Models\Places\SearchRegestClusterModel.cs" />
     <Compile Include="Areas\Admin\Models\Regestae\SearchRegestClusterModel.cs" />
     <Compile Include="Areas\Admin\Models\Persons\SearchPersonClusterModel.cs" />
     <Compile Include="Areas\Admin\Models\SearchModel.cs" />
@@ -260,6 +262,8 @@
     <Content Include="Areas\Admin\Views\Person\Search.cshtml" />
     <Content Include="Areas\Admin\Views\Regest\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Regest\Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Place\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Place\Search.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

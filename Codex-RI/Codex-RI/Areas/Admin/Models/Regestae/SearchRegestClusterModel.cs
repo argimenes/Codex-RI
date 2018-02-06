@@ -18,6 +18,6 @@ namespace Codex_RI.Areas.Admin.Models.Regestae
 
         public string PlaceOfIssue { get; set; }
 
-        public string MentionedPlace { get; set; }
+        public Guid? MentionedPlace { get; set; }
     }
 }
