@@ -1,0 +1,131 @@
+﻿@using Neo4jClientVector.Helpers
+@model Services.Services.Places.IndexPlaceGraph
+@{
+    ViewBag.Title = "Index Place";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumbs {
+    <p>
+        Admin / <a href="/Admin/IndexPlace/Search">Index Places</a>
+    </p>
+}
+
+<section>
+    <div class="container" style="margin-top: 40px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>
+                    @Model.Entity.Name
+                </h3>
+                <p>
+                    <a class="btn btn-default" href="/Admin/IndexPlace/Add">Add</a>
+                    <a class="btn btn-primary" href="/Admin/IndexPlace/Edit/@Model.Entity.Guid">Edit</a>
+                </p>
+                <div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#Details" aria-controls="Details" role="tab" data-toggle="tab">Details</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Regests" aria-controls="Regests" role="tab" data-toggle="tab">Regests</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="Details">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">Guid</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static">@Model.Entity.Guid</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">register id</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static">@Model.Entity.registerid</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">Name 1</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static">@Html.Raw(Model.Entity.name1)</p>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="Regests">
+                            <div class="panel-body">
+                                <a class="btn btn-primary" href="/Admin/Regestae/AddPlaceIn/@Model.Entity.Guid">Add to Regest</a>
+                                @if (Model.Regests.HasValues())
+                                {
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Relationship Id
+                                                </th>
+                                                <th>
+                                                    Regest Id
+                                                </th>
+                                                <th>
+                                                    Reg Num
+                                                </th>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Place of Issue
+                                                </th>
+                                                <th>
+                                                    Text
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var property in Model.Regests)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @property.Relation.__(x => x.Guid)
+                                                    </td>
+                                                    <td>
+                                                        <a href="/Admin/Regest/Index/@property.Target.Guid">@property.Target.regid</a>
+                                                    </td>
+                                                    <td>
+                                                        @property.Target.regnum
+                                                    </td>
+                                                    <td>
+                                                        @property.Target.date
+                                                    </td>
+                                                    <td>
+                                                        @Html.Raw(property.Target.placeOfIssue)
+                                                    </td>
+                                                    <td>
+                                                        @Html.Raw(property.Target.text)
+                                                    </td>
+                                                    <td>
+                                                        @if (property.Relation != null)
+                                                        {
+                                                            <a class="btn btn-default" href="/Admin/IndexPlace/EditPlaceIn?relationId=@property.Relation.Guid">Edit</a>
+                                                            <a class="btn btn-danger" href="/Admin/IndexPlace/DeletePlaceIn?relationId=@property.Relation.Guid">Delete</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

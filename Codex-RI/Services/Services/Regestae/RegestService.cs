@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Neo4jClientVector.Helpers;
 using Neo4jClient.Cypher;
 using System;
+using System.Linq;
 
 namespace Services.Services.Persons
 {
@@ -17,12 +18,14 @@ namespace Services.Services.Persons
         public IEnumerable<MentionsPerson> Persons { get; set; }
         public IEnumerable<MentionsPlace> PlacesMentioned { get; set; }
         public IEnumerable<PlaceOfIssue> PlacesOfIssue { get; set; }
+        public Relationships.Action Action { get; set; }
     }
     public class RegestCluster : Cluster<Regestae>
     {
         public IEnumerable<IndexPerson> Persons { get; set; }
         public IEnumerable<IndexPlace> PlacesMentioned { get; set; }
         public IEnumerable<Place> PlacesOfIssue { get; set; }
+        public Lemma Lemma { get; set; }
     }
     public class SearchRegestCluster : Search<RegestCluster>
     {
@@ -80,6 +83,7 @@ namespace Services.Services.Persons
                                .If(query.MentionedPlace.HasValue, x => x.Match<MentionsPlace>(to: "place").Where("place.Guid", query.MentionedPlace.Value).With("r, person, place"))
                                .OptMatch<MentionsPlace>(to: "otherPlace")
                                .OptMatch<PlaceOfIssue>(to: "placeOfIssue")
+                               .OptMatch<Relationships.Action>()
                                ;
 
             return await PageAsync<RegestCluster, SearchRegestCluster>(query, records, selector: r =>
@@ -89,6 +93,7 @@ namespace Services.Services.Persons
                 Persons = Return.As<IEnumerable<IndexPerson>>("collect(distinct(person))"),
                 PlacesMentioned = Return.As<IEnumerable<IndexPlace>>("collect(distinct(otherPlace))"),
                 PlacesOfIssue = Return.As<IEnumerable<Place>>("collect(distinct(placeOfIssue))"),
+                Lemma = Return.As<Lemma>("head(collect(distinct l ))")
             },
             orderBy: OrderBy.From(query)
                             .When("ByDate", "r.date")
@@ -98,15 +103,25 @@ namespace Services.Services.Persons
 
         public async Task<RegestGraph> FindGraphAsync(Guid guid)
         {
-            var query = graph.From<Regestae>("r")
-                             .Where((Regestae r) => r.Guid == guid);
-            return await query.FirstOrDefaultAsync(r => new RegestGraph
+            var query = graph.From<Regestae>("r").Where((Regestae r) => r.Guid == guid)
+                             .OptMatch<Relationships.Action>()
+                ;
+            var data = await query.FirstOrDefaultAsync(r => new
             {
                 Entity = r.As<Regestae>(),
                 Persons = Return.As<IEnumerable<MentionsPerson>>(Rows<MentionsPerson>()),
                 PlacesMentioned = Return.As<IEnumerable<MentionsPlace>>(Rows<MentionsPlace>()),
-                PlacesOfIssue = Return.As<IEnumerable<PlaceOfIssue>>(Rows<PlaceOfIssue>())
+                PlacesOfIssue = Return.As<IEnumerable<PlaceOfIssue>>(Rows<PlaceOfIssue>()),
+                Actions = Return.As<IEnumerable<Relationships.Action>>("collect(distinct { Relation: a, Target: l })")
             });
+            return new RegestGraph
+            {
+                Entity = data.Entity,
+                Persons = data.Persons,
+                PlacesMentioned = data.PlacesMentioned,
+                PlacesOfIssue = data.PlacesOfIssue,
+                Action = data.Actions.FirstOrDefault()
+            };
         }
 
         public override async Task<Result> SaveOrUpdateAsync(Regestae data)

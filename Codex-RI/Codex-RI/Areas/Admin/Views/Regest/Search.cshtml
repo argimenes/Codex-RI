@@ -146,7 +146,9 @@
                             <th>
                                 Places Mentioned
                             </th>
-
+                            <th>
+                                Lemma
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -187,6 +189,12 @@
                                         <p>
                                             <a href="/Admin/IndexPlace/Index/@place.Guid">@Html.Raw(place.name1)</a>
                                         </p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Lemma != null)
+                                    {
+                                        <a href="/Admin/Lemma/Index/@item.Lemma.Guid">@item.Lemma.DisplayName</a>
                                     }
                                 </td>
                             </tr>

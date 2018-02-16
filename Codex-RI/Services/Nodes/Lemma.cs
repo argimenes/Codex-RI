@@ -7,5 +7,12 @@ namespace Services.Nodes
     public class Lemma : Entity
     {
         public string lemma { get; set; }
+        public new string DisplayName
+        {
+            get
+            {
+                return lemma;
+            }
+        }
     }
 }
