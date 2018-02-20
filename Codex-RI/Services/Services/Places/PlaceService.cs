@@ -18,7 +18,7 @@ namespace Services.Services.Persons
     }
     public class PlaceCluster : Cluster<Place>
     {
-        public IEnumerable<Regestae> Regestae { get; set; }
+        public IEnumerable<Regest> Regestae { get; set; }
         public int RegestaeCount { get; set;}
     }
     public class SearchPlaceCluster : Search<PlaceCluster>
@@ -57,7 +57,7 @@ namespace Services.Services.Persons
             new PlaceCluster
             {
                 Entity = r.As<Place>(),
-                Regestae = Return.As<IEnumerable<Regestae>>("collect(distinct(r))"),
+                Regestae = Return.As<IEnumerable<Regest>>("collect(distinct(r))"),
                 RegestaeCount = Return.As<int>("RegestaeCount")
             },
             orderBy: OrderBy.From(query)

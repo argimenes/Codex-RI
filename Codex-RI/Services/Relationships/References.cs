@@ -12,7 +12,7 @@ namespace Services.Relationships
     /// (r:Regestae)-[references:REFERENCES]->(ref:Reference)
     /// </summary>
     [TargetNode(Key = "ref")]
-    public class References : Vector<ReferencesRelation, Regestae, Reference>
+    public class References : Vector<ReferencesRelation, Regest, Reference>
     {
 
     }

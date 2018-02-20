@@ -11,7 +11,7 @@ namespace Services.Relationships
     /// <summary>
     /// (r:Regestae)-[doi:DATE_OF_ISSUE]->(d:Date)
     /// </summary>
-    public class DateOfIssue : Vector<DateOfIssueRelation, Regestae, Date>
+    public class DateOfIssue : Vector<DateOfIssueRelation, Regest, Date>
     {
 
     }

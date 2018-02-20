@@ -1,0 +1,101 @@
+﻿@using Neo4jClientVector.Helpers
+@model Services.Services.Regestae.LemmaGraph
+@{
+    ViewBag.Title = "Lemma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumbs {
+    <p>
+        Admin / <a href="/Admin/Lemma/Search">Lemmas</a>
+    </p>
+}
+
+<section>
+    <div class="container" style="margin-top: 40px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>
+                    @Model.Entity.Name
+                </h3>
+                <p>
+                    <a class="btn btn-default" href="/Admin/Lemma/Add">Add</a>
+                    <a class="btn btn-primary" href="/Admin/Lemma/Edit/@Model.Entity.Guid">Edit</a>
+                </p>
+                <div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#Details" aria-controls="Details" role="tab" data-toggle="tab">Details</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#Regestae" aria-controls="Regestae" role="tab" data-toggle="tab">Regestae</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="Details">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">Guid</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static">@Model.Entity.Guid</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">Lemma</label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static">@Model.Entity.lemma</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="Regestae">
+                            <div class="panel-body">
+                                <a class="btn btn-primary" href="/Admin/Lemma/AddToRegest/@Model.Entity.Guid">Add Regesta</a>
+                                @if (Model.Actions.HasValues())
+                                {
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Relationship Id
+                                                </th>                                                
+                                                <th>
+                                                    Reg Id
+                                                </th>                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Actions)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @item.Relation.__(x => x.Guid)
+                                                    </td>
+                                                    <td>
+                                                        <a href="/Admin/Regest/Index/@item.Source.Guid">@Html.Raw(item.Source.regid)</a>
+                                                    </td>    
+                                                    <td>
+                                                        @Html.Raw(item.Source.text)
+                                                    </td>                                                
+                                                    <td>
+                                                        @if (item.Relation != null)
+                                                        {
+                                                            <a class="btn btn-default" href="/Admin/Regest/EditMentionsPerson?relationId=@item.Relation.Guid">Edit</a>
+                                                            <a class="btn btn-danger" href="/Admin/Regest/DeleteMentionsPerson?relationId=@item.Relation.Guid">Delete</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -12,7 +12,7 @@ namespace Services.Relationships
     /// (r:Regestae)&lt;-[placeIn:PLACE_IN]-(ip:IndexPlace)
     /// </summary>
     [TargetNode(Key = "place")]
-    public class MentionsPlace : Vector<MentionsPlaceRelation, Regestae, IndexPlace>
+    public class MentionsPlace : Vector<MentionsPlaceRelation, Regest, IndexPlace>
     {
 
     }

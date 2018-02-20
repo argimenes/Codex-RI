@@ -5,13 +5,13 @@ using Services.Nodes;
 namespace Services.Relationships
 {
     [Relationship(Type = "ACTION", Direction = Neo4jClient.RelationshipDirection.Outgoing)]
-    public class ActionRelation : Relation
+    public class LemmaActionRelation : Relation
     {
     }
     /// <summary>
     /// (r:Regestae)-[a:ACTION]->(l:Lemma)
     /// </summary>
-    public class Action : Vector<ActionRelation, Regestae, Lemma>
+    public class LemmaAction : Vector<LemmaActionRelation, Regest, Lemma>
     {
 
     }

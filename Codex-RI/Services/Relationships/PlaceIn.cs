@@ -11,7 +11,7 @@ namespace Services.Relationships
     /// <summary>
     /// (ip:IndexPlace)-[placeIn:PLACE_IN]->(r:Regestae)
     /// </summary>
-    public class PlaceIn : Vector<PlaceInRelation, IndexPlace, Regestae>
+    public class PlaceIn : Vector<PlaceInRelation, IndexPlace, Regest>
     {
 
     }

@@ -18,7 +18,7 @@ namespace Services.Services.Persons
     }
     public class PersonCluster : Cluster<IndexPerson>
     {
-        public IEnumerable<Regestae> Regests { get; set; }
+        public IEnumerable<Regest> Regests { get; set; }
         public int RegestCount { get; set; }
     }
     public class SearchPersonCluster : Search<PersonCluster>

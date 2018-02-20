@@ -12,7 +12,7 @@ namespace Services.Relationships
     /// (person:IndexPerson)-[personIn:PERSON_IN]->(r:Regestae)
     /// </summary>
     [TargetNode(Key = "person")]
-    public class PersonIn : Vector<PersonInRelation, IndexPerson, Regestae>
+    public class PersonIn : Vector<PersonInRelation, IndexPerson, Regest>
     {
 
     }

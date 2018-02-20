@@ -72,6 +72,7 @@
     <Compile Include="Relationships\PlaceIn.cs" />
     <Compile Include="Services\Places\IndexPlaceService.cs" />
     <Compile Include="Services\Places\PlaceService.cs" />
+    <Compile Include="Services\Regestae\LemmaService.cs" />
     <Compile Include="Services\Regestae\RegestService.cs" />
     <Compile Include="Services\Persons\PersonService.cs" />
   </ItemGroup>

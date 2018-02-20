@@ -223,9 +223,11 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\IndexPlaceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LemmaController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlaceController.cs" />
     <Compile Include="Areas\Admin\Controllers\RegestController.cs" />
     <Compile Include="Areas\Admin\Controllers\PersonController.cs" />
+    <Compile Include="Areas\Admin\Models\Lemmas\SearchLemmaClusterModel.cs" />
     <Compile Include="Areas\Admin\Models\Places\SearchRegestClusterModel.cs" />
     <Compile Include="Areas\Admin\Models\Regestae\SearchRegestClusterModel.cs" />
     <Compile Include="Areas\Admin\Models\Persons\SearchPersonClusterModel.cs" />
@@ -266,6 +268,8 @@
     <Content Include="Areas\Admin\Views\Place\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Place\Search.cshtml" />
     <Content Include="Areas\Admin\Views\IndexPlace\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Lemma\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Lemma\Search.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

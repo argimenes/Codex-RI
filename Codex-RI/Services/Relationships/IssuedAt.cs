@@ -11,7 +11,7 @@ namespace Services.Relationships
     /// <summary>
     /// (p:Place)&lt;-[iop:PLACE_OF_ISSUE]-(r:Regestae)
     /// </summary>
-    public class IssuedAt : Vector<IssuedAtRelation, Place, Regestae>
+    public class IssuedAt : Vector<IssuedAtRelation, Place, Regest>
     {
 
     }

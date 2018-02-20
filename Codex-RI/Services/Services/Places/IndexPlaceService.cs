@@ -22,7 +22,7 @@ namespace Services.Services.Places
     }
     public class IndexPlaceCluster : Cluster<IndexPlace>
     {
-        public Regestae Regesta { get; set; }
+        public Regest Regesta { get; set; }
     }
     public class IndexPlaceService : Service<IndexPlace>, IIndexPlaceService
     {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,9 +19,9 @@ namespace Codex_RI.Areas.Admin.Controllers
         #endregion
 
         [HttpGet]
-        public ActionResult Index(Guid id)
+        public async Task<ActionResult> Index(Guid id)
         {
-            var data = service.FindGraphAsync(id);
+            var data = await service.FindGraphAsync(id);
             return View(data);
         }
     }

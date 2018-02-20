@@ -11,7 +11,7 @@ namespace Services.Relationships
     /// <summary>
     /// (r:Regestae)-[poi:PLACE_OF_ISSUE]->(p:Place)
     /// </summary>
-    public class PlaceOfIssue : Vector<PlaceOfIssueRelation, Regestae, Place>
+    public class PlaceOfIssue : Vector<PlaceOfIssueRelation, Regest, Place>
     {
 
     }

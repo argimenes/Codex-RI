@@ -13,14 +13,14 @@ using System.Linq;
 
 namespace Services.Services.Persons
 {
-    public class RegestGraph : Graph<Regestae>
+    public class RegestGraph : Graph<Regest>
     {
         public IEnumerable<MentionsPerson> Persons { get; set; }
         public IEnumerable<MentionsPlace> PlacesMentioned { get; set; }
         public IEnumerable<PlaceOfIssue> PlacesOfIssue { get; set; }
-        public Relationships.Action Action { get; set; }
+        public Relationships.LemmaAction Action { get; set; }
     }
-    public class RegestCluster : Cluster<Regestae>
+    public class RegestCluster : Cluster<Regest>
     {
         public IEnumerable<IndexPerson> Persons { get; set; }
         public IEnumerable<IndexPlace> PlacesMentioned { get; set; }
@@ -41,14 +41,14 @@ namespace Services.Services.Persons
 
         public Guid? MentionedPlace { get; set; }
     }
-    public interface IRegestService : IEntityService<Regestae>
+    public interface IRegestService : IEntityService<Regest>
     {
         Task<List<string>> PlacesOfIssueAsync();
         Task<RegestGraph> FindGraphAsync(Guid guid);
         Task<List<IndexPlace>> PlacesAsync();
         Task<SearchRegestCluster> SearchAsync(SearchRegestCluster query);
     }
-    public class RegestService : EntityService<Regestae>, IRegestService
+    public class RegestService : EntityService<Regest>, IRegestService
     {
         #region constructor
         public RegestService(IGraphDataContext _db) : base(_db)
@@ -58,7 +58,7 @@ namespace Services.Services.Persons
 
         public async Task<List<string>> PlacesOfIssueAsync()
         {
-            var query = graph.From<Regestae>("r").With("r");
+            var query = graph.From<Regest>("r").With("r");
             var result = await query.ToListAsync(r => Return.As<string>("distinct(r.placeOfIssue)"));
             return result;
         }
@@ -83,13 +83,13 @@ namespace Services.Services.Persons
                                .If(query.MentionedPlace.HasValue, x => x.Match<MentionsPlace>(to: "place").Where("place.Guid", query.MentionedPlace.Value).With("r, person, place"))
                                .OptMatch<MentionsPlace>(to: "otherPlace")
                                .OptMatch<PlaceOfIssue>(to: "placeOfIssue")
-                               .OptMatch<Relationships.Action>()
+                               .OptMatch<Relationships.LemmaAction>()
                                ;
 
             return await PageAsync<RegestCluster, SearchRegestCluster>(query, records, selector: r =>
             new RegestCluster
             {
-                Entity = r.As<Regestae>(),
+                Entity = r.As<Regest>(),
                 Persons = Return.As<IEnumerable<IndexPerson>>("collect(distinct(person))"),
                 PlacesMentioned = Return.As<IEnumerable<IndexPlace>>("collect(distinct(otherPlace))"),
                 PlacesOfIssue = Return.As<IEnumerable<Place>>("collect(distinct(placeOfIssue))"),
@@ -103,16 +103,16 @@ namespace Services.Services.Persons
 
         public async Task<RegestGraph> FindGraphAsync(Guid guid)
         {
-            var query = graph.From<Regestae>("r").Where((Regestae r) => r.Guid == guid)
-                             .OptMatch<Relationships.Action>()
+            var query = graph.From<Regest>("r").Where((Regest r) => r.Guid == guid)
+                             .OptMatch<Relationships.LemmaAction>()
                 ;
             var data = await query.FirstOrDefaultAsync(r => new
             {
-                Entity = r.As<Regestae>(),
+                Entity = r.As<Regest>(),
                 Persons = Return.As<IEnumerable<MentionsPerson>>(Rows<MentionsPerson>()),
                 PlacesMentioned = Return.As<IEnumerable<MentionsPlace>>(Rows<MentionsPlace>()),
                 PlacesOfIssue = Return.As<IEnumerable<PlaceOfIssue>>(Rows<PlaceOfIssue>()),
-                Actions = Return.As<IEnumerable<Relationships.Action>>("collect(distinct { Relation: a, Target: l })")
+                Actions = Return.As<IEnumerable<Relationships.LemmaAction>>("collect(distinct { Relation: a, Target: l })")
             });
             return new RegestGraph
             {
@@ -124,7 +124,7 @@ namespace Services.Services.Persons
             };
         }
 
-        public override async Task<Result> SaveOrUpdateAsync(Regestae data)
+        public override async Task<Result> SaveOrUpdateAsync(Regest data)
         {
             return await SaveOrUpdateAsync(data, update: x =>
             {
