@@ -41,7 +41,10 @@ namespace Codex_RI.Areas.Admin.Controllers
 
         private ViewResult View(SearchLemmaClusterModel model)
         {
-            ViewBag.SortOptions = new List<SelectListItem> { };
+            ViewBag.SortOptions = new List<SelectListItem> {
+                new SelectListItem { Text = "By Name", Value = "ByName" },
+                new SelectListItem { Text = "By Regest Count", Value = "ByRegestCount" },
+            };
             return View("Search", model);
         }
 
@@ -51,7 +54,8 @@ namespace Codex_RI.Areas.Admin.Controllers
             return new SearchLemmaCluster
             {
                 Lemma = model.Lemma,
-                Order = SearchOrder.ByName.ToString(),
+                Order = model.Order ?? "ByName",
+                Direction = model.Direction,
                 Page = model.Page,
                 PageRows = model.PageRows
             };

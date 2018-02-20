@@ -61,7 +61,9 @@ namespace Services.Services.Regestae
             {
                 Entity = l.As<Lemma>(),
                 RegestCount = Return.As<int>("count(distinct r)")
-            }, orderBy: OrderBy.From(search).When("ByName", "l.lemma"));
+            }, orderBy: OrderBy.From(search)
+                               .When("ByName", "l.lemma")
+                               .When("ByRegestCount", "RegestCount ASC, l.lemma ASC", "RegestCount DESC, l.lemma ASC"));
         }
     }
 }
