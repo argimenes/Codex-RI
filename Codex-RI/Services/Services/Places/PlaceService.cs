@@ -53,10 +53,10 @@ namespace Services.Services.Persons
                                .With("p, r, count(distinct(r)) as RegestaeCount")
                                ;
 
-            return await PageAsync<PlaceCluster, SearchPlaceCluster>(query, records, selector: r =>
+            return await PageAsync<PlaceCluster, SearchPlaceCluster>(query, records, selector: p =>
             new PlaceCluster
             {
-                Entity = r.As<Place>(),
+                Entity = p.As<Place>(),
                 Regestae = Return.As<IEnumerable<Regest>>("collect(distinct(r))"),
                 RegestaeCount = Return.As<int>("RegestaeCount")
             },

@@ -10,7 +10,7 @@
     </p>
 }
 
-<div class="wrapper wrapper-content">
+<div style="padding: 40px;" class="wrapper wrapper-content">
 
     @using (Html.BeginForm("", ""))
     {
@@ -22,13 +22,12 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row">
-                            
                             <div class="col-md-2">
                                 <label>
-                                    Day
+                                    Name
                                 </label>
-                                @Html.TextBoxFor(x => x.Day, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.Day)
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Name)
                             </div>
                         </div>
                         <div class="row">
@@ -114,7 +113,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="/Admin/Place/Index/@item.Entity.Guid" class="btn btn-white btn-outline btn-sm">
+                                    <a  href="/Admin/Place/Index/@item.Entity.Guid" class="btn btn-default">
                                         View
                                     </a>
                                 </td>
@@ -125,7 +124,12 @@
                                     @item.Entity.name
                                 </td>
                                 <td>
-                                    @item.Regestae
+                                    @foreach (var regest in item.Regestae)
+                                    {
+                                        <p>
+                                            <a href="/Admin/Regest/Index/@regest.Guid">@regest.regid</a>
+                                        </p>
+                                    }
                                 </td>
                             </tr>
                         }

@@ -12,7 +12,7 @@
 }
 
 <section>
-    <div class="container" style="margin-top: 40px;">
+    <div style="padding: 40px;">
         <div class="row">
             <div class="col-md-12">
                 <h3>
@@ -88,32 +88,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var property in Model.Regests)
+                                            @foreach (var item in Model.Regests.Where(x=> x.Relation!=null))
                                             {
                                                 <tr>
                                                     <td>
-                                                        @property.Relation.__(x => x.Guid)
+                                                        @item.Relation.__(x => x.Guid)
                                                     </td>
                                                     <td>
-                                                        <a href="/Admin/Regest/Index/@property.Target.Guid">@property.Target.regid</a>
+                                                        <a href="/Admin/Regest/Index/@item.Target.Guid">@item.Target.regid</a>
                                                     </td>
                                                     <td>
-                                                        @property.Target.regnum
+                                                        @item.Target.regnum
                                                     </td>
                                                     <td>
-                                                        @property.Target.date
+                                                        @item.Target.date
                                                     </td>
                                                     <td>
-                                                        @Html.Raw(property.Target.placeOfIssue)
+                                                        @Html.Raw(item.Target.placeOfIssue)
                                                     </td>
                                                     <td>
-                                                        @Html.Raw(property.Target.text)
+                                                        @Html.Raw(item.Target.text)
                                                     </td>
                                                     <td>
-                                                        @if (property.Relation != null)
+                                                        @if (item.Relation != null)
                                                         {
-                                                            <a class="btn btn-default" href="/Admin/IndexPlace/EditPlaceIn?relationId=@property.Relation.Guid">Edit</a>
-                                                            <a class="btn btn-danger" href="/Admin/IndexPlace/DeletePlaceIn?relationId=@property.Relation.Guid">Delete</a>
+                                                            <a class="btn btn-default" href="/Admin/IndexPlace/EditPlaceIn?relationId=@item.Relation.Guid">Edit</a>
+                                                            <a class="btn btn-danger" href="/Admin/IndexPlace/DeletePlaceIn?relationId=@item.Relation.Guid">Delete</a>
                                                         }
                                                     </td>
                                                 </tr>

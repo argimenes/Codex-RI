@@ -73,6 +73,8 @@ namespace Codex_RI.Areas.Admin.Controllers
             var list = new List<SelectListItem>
             {
                 new SelectListItem { Text = "By Date", Value = "ByDate" },
+                new SelectListItem { Text = "By Regesta Id", Value = "ByRegId" },
+                new SelectListItem { Text = "By Regesta Number", Value = "ByRegNum" },
                 new SelectListItem { Text = "By Place of Issue", Value = "ByPlaceOfIssue" },
                 new SelectListItem { Text = "By Person Count", Value = "ByPersonCount" },
             };

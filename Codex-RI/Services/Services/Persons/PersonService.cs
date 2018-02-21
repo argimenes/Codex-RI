@@ -45,14 +45,15 @@ namespace Services.Services.Persons
             var records = graph.Match<PersonIn>(from: "p").Where()
                                .If(query.Name1.HasValue(), x => x.AndWhereLike("p.name1", query.Name1))
                                .If(query.Name3.HasValue(), x => x.AndWhereLike("p.name3", query.Name3))
-                               .With("p, count(distinct(r)) as RegestCount")
+                               .With("p, count(distinct(r)) as RegestCount, r")
                                ;
 
             return await PageAsync<PersonCluster, SearchPersonCluster>(query, records, selector: p =>
             new PersonCluster
             {
                 Entity = p.As<IndexPerson>(),
-                RegestCount = Return.As<int>("RegestCount")
+                RegestCount = Return.As<int>("RegestCount"),
+                Regests = Return.As<IEnumerable<Regest>>("collect(distinct r)")
             },
             orderBy: OrderBy.From(query)
                             .When("ByName", "p.name1")

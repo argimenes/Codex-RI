@@ -1,6 +1,6 @@
-﻿@model Codex_RI.Areas.Admin.Models.Persons.SearchPersonClusterModel
+﻿@model Codex_RI.Areas.Admin.Models.IndexPlaces.SearchIndexPlaceClusterModel
 @{
-    ViewBag.Title = "Persons / Search";
+    ViewBag.Title = "Index Places / Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -26,16 +26,9 @@
                                 <label>
                                     Name 1
                                 </label>
-                                @Html.TextBoxFor(x => x.Name1, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.Name1)
-                            </div>
-                            <div class="col-md-2">
-                                <label>
-                                    Name 3
-                                </label>
-                                @Html.TextBoxFor(x => x.Name3, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.Name3)
-                            </div>
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>                            
                         </div>
                         <div class="row">
                             <div class="col-md-2">
@@ -76,7 +69,7 @@
                         <div class="row" style="margin-top:20px;">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary">Search</button>
-                                <a href="/Admin/Person/Search" class="btn btn-white btn-outline">Clear</a>
+                                <a href="/Admin/IndexPlace/Search" class="btn btn-white btn-outline">Clear</a>
                             </div>
                         </div>
 
@@ -85,7 +78,7 @@
             </div>
             <div class="col-md-2">
                 <div class="pull-right">
-                    <a class="btn btn-lg btn-primary" href="/Admin/Person/Add">Add</a>
+                    <a class="btn btn-lg btn-primary" href="/Admin/IndexPlace/Add">Add</a>
                 </div>
             </div>
         </div>
@@ -114,11 +107,8 @@
                                 Name 1
                             </th>
                             <th>
-                                Name 3
-                            </th>
-                            <th>
-                                # of Regests
-                            </th>
+                                Regests
+                            </th>                            
                         </tr>
                     </thead>
                     <tbody>
@@ -126,7 +116,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="/Admin/Person/Index/@item.Entity.Guid" class="btn btn-default">
+                                    <a href="/Admin/IndexPlace/Index/@item.Entity.Guid" class="btn btn-default">
                                         View
                                     </a>
                                 </td>
@@ -140,16 +130,13 @@
                                     @Html.Raw(item.Entity.name1)
                                 </td>
                                 <td>
-                                    @Html.Raw(item.Entity.name3)
-                                </td>
-                                <td>
                                     @foreach (var regest in item.Regests)
                                     {
                                         <p>
                                             <a href="/Admin/Regest/Index/@regest.Guid">@regest.regid</a>
                                         </p>
                                     }
-                                </td>
+                                </td>                                
                             </tr>
                         }
                     </tbody>
@@ -157,7 +144,7 @@
             }
             else
             {
-                <h4>There were no persons found for your query</h4>
+                <h4>There were no index places found for your query</h4>
             }
         </div>
     </div>

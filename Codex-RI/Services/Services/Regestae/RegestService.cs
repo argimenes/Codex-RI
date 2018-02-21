@@ -98,6 +98,8 @@ namespace Services.Services.Persons
             orderBy: OrderBy.From(query)
                             .When("ByDate", "r.date")
                             .When("ByPlaceOfIssue", "r.placeOfIssue")
+                            .When("ByRegId", "r.regid")
+                            .When("ByRegNum", "r.regnum")
                             .When("ByPersonCount", "PersonCount"));
         }
 
